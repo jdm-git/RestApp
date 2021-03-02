@@ -4,7 +4,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 
 router.get('/', async(req, res) => {
-    const todos = await TodoList.find().sort('name');
+    const todos = await Todo.find().sort('name');
     res.send(todos);
 })
 router.get('/:id', async(req,res) => {
