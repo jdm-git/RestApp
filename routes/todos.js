@@ -1,22 +1,23 @@
 const {Todo, validate} = require('../models/toDoList');
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 router.get('/', async(req, res) => {
     const todos = await TodoList.find().sort('name');
     res.send(todos);
 })
-// router.get('/:id', async(req,res) => {
+router.get('/:id', async(req,res) => {
 
-//     const todo = await TodoList.findById(req.params.id);
-//     //if(!todo) return res.status(404).send('The ToDo with the given ID was not found.');
+    const todo = await Todo.findById(req.params.id);
 
-//     //res.send(todo);
+    if(!todo) return res.status(404).send('The todo with given ID was not found.');
 
+    res.send(todo);
 
-// })
+})
 
-router.post('/', async(req, res) => {
+router.post('/',auth, async(req, res) => {
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -29,7 +30,7 @@ router.post('/', async(req, res) => {
 
     res.send(todo);
 })
-router.put('/:id', async(req, res) => {
+router.put('/:id',auth, async(req, res) => {
 
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
@@ -47,7 +48,7 @@ router.put('/:id', async(req, res) => {
     res.send(todo);
 })
 
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', auth, async(req, res) => {
     
     const todo = await Todo.findByIdAndDelete(req.params.id);
 
