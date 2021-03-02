@@ -1,6 +1,7 @@
 # RestApp
 
 Simple REST Api, for ToDo application, with auhorization.
+Made with NODE.JS, MongoDB
 
 `/api/users/ => POST to register a new user, registration gives us authorized token`
 
